@@ -6,19 +6,19 @@ import java.awt.image.*;
 
 public class GraphFX extends Graph
 {
-	Vector < Drawable > aObjs;
+	volatile Vector < Drawable > aObjs;
 	Hashtable <String, Drawable> hashID;
 	Hashtable <String, String> hashName;
 
-	int fRate;
-	int n;
-	boolean started;
+	volatile int fRate;
+	volatile int n;
+	volatile boolean started;
 	static int count;
-	boolean pause;
+	volatile boolean pause;
 
 	Graphics g;
 	
-	javax.swing.Timer timer;
+	Thread timer;
 	Plot plot;
 
 	static Random r = new Random();
@@ -34,7 +34,7 @@ public class GraphFX extends Graph
 		showCrosshair = false;
 		showCord = false;
 
-		fRate = 10;
+		fRate = 20;
 		count = 0;
 		started = false;
 		plot = null;
@@ -43,37 +43,62 @@ public class GraphFX extends Graph
 		hashID = new Hashtable<String, Drawable>();
 		hashName = new Hashtable<String, String>();
 
-		timer = new javax.swing.Timer(fRate, new ActionListener()
-			{
-				public void actionPerformed(ActionEvent e)
+		timer = new Thread(
+			
+				new Runnable()
 				{
-					
-					if(pause)
+					@Override
+					public void run()
 					{
-						return;
-					}
-					for(int i = n - 1; i >= 0; i--)
-					{
-						if(started)
-							aObjs.elementAt(i).unplot();
-					}
-
-					for(int i = 0; i < n; i++)
-					{	
-						if(started)
+						double err = 0;
+						while(true)
 						{
-							aObjs.elementAt(i).update();
-						}
-						else
-						{
-							started = true;
-						}
+							long beforeTime = System.currentTimeMillis();
+							if(pause)
+							{
+								continue;
+							}
+							for(int i = n - 1; i >= 0; i--)
+							{
+								if(started)
+									aObjs.elementAt(i).unplot();
+							}
 
-						aObjs.elementAt(i).plot();
+							for(int i = 0; i < n; i++)
+							{	
+								if(started)
+								{
+									aObjs.elementAt(i).update(err);
+								}
+								else
+								{
+									started = true;
+								}
+
+								aObjs.elementAt(i).plot();
+							}
+							err = 0;
+							//paintComponent(getGraphics());
+							repaint();
+							try
+							{
+								long sleepTime = fRate - System.currentTimeMillis() + beforeTime;
+								//System.out.println(sleepTime);
+								if(sleepTime >= 0)
+									Thread.sleep(sleepTime);
+								else
+									err = -(double)sleepTime / fRate;
+
+							}catch(InterruptedException ex)
+							{
+								ex.printStackTrace(System.err);
+								//System.out.println("Yup");
+							}
+
+						}
+						
 					}
-					repaint();
-					
-				}
+				
 			});
 		//timer.start();
 	}
@@ -92,6 +117,11 @@ public class GraphFX extends Graph
 	public void start()
 	{
 		timer.start();
+	}
+
+	public Graphics getGraphics()
+	{
+		return super.getGraphics();
 	}
 
 	public void addDrawable(Drawable drw)
@@ -173,9 +203,6 @@ public class GraphFX extends Graph
 		fRate += 1 * e.getWheelRotation();
 		if(fRate < 10)
 			fRate = 10;
-		timer.setInitialDelay(fRate);
-		timer.setDelay(fRate);
-		timer.restart();
 	}
 
 	@Override
@@ -187,9 +214,17 @@ public class GraphFX extends Graph
 			pause = !pause;
 		}
 	}
-	public void paint(Graphics g)
+
+	@Override
+	public void paintComponent(Graphics g)
 	{
-		super.paint(g);
+		super.paintComponent(g);
+	}
+
+	@Override
+	public void update(Graphics g)
+	{
+		paintComponent(g);
 	}
 
 	public Drawable getDrawable(String name)
@@ -209,15 +244,16 @@ public class GraphFX extends Graph
 
 	public static void main(String args[])
 	{
-		JFrame jf = new JFrame("FX Panel");
-		GraphFX gfx = new GraphFX(60, 40, 1500, 1000);
-		gfx.setKxKy(5, 5);
+		EventQueue.invokeLater(() -> {
+            JFrame jf = new JFrame("FX Panel");
+			GraphFX gfx = new GraphFX(60, 40, 1500, 1000);
+			gfx.setKxKy(5, 5);
 
-		Plot plot = new Plot()
+			Plot plot = new Plot()
 			{	
 				public void plot(GraphFX gfx)
 				{
-					int L = 80;
+					int L = 100;
 					for(int i = 0; i < L; i++)
 					{
 						double r1 = i / (double)L * 20;
@@ -239,13 +275,15 @@ public class GraphFX extends Graph
 				}
 			};
 
-		gfx.setPlot(plot);
-		gfx.start();
-		jf.add(gfx);
-		jf.addKeyListener(gfx);
-		jf.setSize(1500, 1000);
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.setVisible(true);
+			gfx.setPlot(plot);
+			gfx.start();
+			jf.add(gfx);
+			jf.addKeyListener(gfx);
+			jf.setSize(1500, 1000);
+			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			jf.setVisible(true);
+        });
+		
 	}
 
 }

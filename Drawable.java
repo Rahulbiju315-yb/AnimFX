@@ -53,7 +53,7 @@ public abstract class Drawable extends PixelManip implements Cloneable
 
 	public abstract void plot();
 	public abstract void unplot();
-	public void update()
+	public void update(double err)
 	{
 		if(updateEvents != null)
 			for(int i = 0; i < ueSize; i++)

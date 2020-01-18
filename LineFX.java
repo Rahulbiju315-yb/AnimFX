@@ -269,27 +269,32 @@ public class LineFX extends Drawable
 		this.y2 = y2;
 	}
 
-	public void update()
+	public void update(double err)
 	{
-		super.update();
+		super.update(err);
+		//System.out.print(err);
 
-		x1 += vx;
-		y1 += vy;
-		x2 += vx;
-		y2 += vy;
+		double vx_ = vx * (1 + err);
+		double vy_ = vy * (1 + err);
+		double phi_ = phi * (1 + err);
 
-		cx += vx;
-		cy += vy;
+		x1 += vx_;
+		y1 += vy_;
+		x2 += vx_;
+		y2 += vy_;
+
+		cx += vx_;
+		cy += vy_;
 
 		if(phi != 0)
 		{
-			x1 = cx + (l / 2 * Math.cos(phi + theta));
-			y1 = cy + (l / 2 * Math.sin(phi + theta));
-			x2 = cx - (l / 2 * Math.cos(phi + theta));
-			y2 = cy - (l / 2 * Math.sin(phi + theta));
+			x1 = cx + (l / 2 * Math.cos(phi_ + theta));
+			y1 = cy + (l / 2 * Math.sin(phi_ + theta));
+			x2 = cx - (l / 2 * Math.cos(phi_ + theta));
+			y2 = cy - (l / 2 * Math.sin(phi_ + theta));
 
 			//putPixel(x1, y1, bim, false);
-			theta += phi;
+			theta += phi_;
 		}
 		//omega += omega;
 	}

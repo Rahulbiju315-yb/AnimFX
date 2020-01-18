@@ -167,12 +167,12 @@ public class GroupFX extends Drawable
 	}
 
 	@Override
-	public void update()
+	public void update(double err)
 	{
-		super.update();
+		super.update(err);
 		for(int i = 0; i < n; i++)
 		{
-			drs.elementAt(i).update();
+			drs.elementAt(i).update(err);
 		}
 	}
 }

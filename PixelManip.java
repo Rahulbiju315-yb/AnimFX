@@ -11,7 +11,7 @@ public class PixelManip
     {
         try{
             int rgb = bim.getGraphics().getColor().getRGB();
-            Graphics2D g2d = (Graphics2D)bim.getGraphics();
+            //Graphics2D g2d = (Graphics2D)bim.getGraphics();
             if(!replot)
             {
                 if(!pushed(x, y))

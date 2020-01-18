@@ -726,13 +726,12 @@ public class  Graph extends JPanel implements MouseMotionListener, MouseWheelLis
 	}
 
 	@Override
-	public void paint(Graphics g)
+	public void paintComponent(Graphics g)
 	{
-		super.paint(g);
+		//super.paintComponent(g);
 		if(graph != null)
 		{
-			if(axesRedraw)
-				g.drawImage(graph, 0, 0, null);
+			g.drawImage(graph, 0, 0, null);
 			
 			if(showAxes)
 				plotAxes((Graphics2D)g);
@@ -753,20 +752,26 @@ public class  Graph extends JPanel implements MouseMotionListener, MouseWheelLis
 	
 	public void mouseDragged(MouseEvent e)
 	{
+		int oX = mX;
+		int oY = mY;
+
 		if(grListener != null)
 			grListener.graphEvent(MOUSE_DRAGGED, e, this);
 		mX = e.getX();
 		mY = e.getY();
-		repaint();
+
 	}
 	
 	public void mouseMoved(MouseEvent e)
 	{
+		int oX = mX;
+		int oY = mY;
+
 		if(grListener != null)
 			grListener.graphEvent(MOUSE_MOVED, e, this);
 		mX = e.getX();
 		mY = e.getY();
-		repaint();
+
 	}
 	
 	public void keyPressed(KeyEvent e)
@@ -794,7 +799,15 @@ public class  Graph extends JPanel implements MouseMotionListener, MouseWheelLis
 				{
 					jplotList(lst);
 				}
+				else
+				{
+					return;
+				}
 				maintainList = true;
+			}
+			else
+			{
+				return;
 			}
 			
 		}
@@ -811,7 +824,15 @@ public class  Graph extends JPanel implements MouseMotionListener, MouseWheelLis
 				{
 					splotList(lst);
 				}
+				else
+				{
+					return;
+				}
 				maintainList = true;
+			}
+			else
+			{
+				return;
 			}
 		}
 
@@ -822,6 +843,10 @@ public class  Graph extends JPanel implements MouseMotionListener, MouseWheelLis
 			{
 				jplotLists(lineList);
 			}
+			else
+			{
+				return;
+			}
 			maintainList = true;
 		}
 		
@@ -831,10 +856,16 @@ public class  Graph extends JPanel implements MouseMotionListener, MouseWheelLis
 			{
 				grListener.graphEvent(CTRL_KEY_PRESSED, e, this);
 			}
+			else
+			{
+				return;
+			}
 		}
-		
 
-		
+		else
+		{
+			return;
+		}
 		repaint();
 	}
 	
