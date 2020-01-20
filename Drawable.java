@@ -90,9 +90,9 @@ public abstract class Drawable implements Cloneable
 	 */
 	RealRectangle bounds;
 
-    /**
-     * Linear velocity of the {@code Drawable} in the direction of the X axis.
-     */
+   	/**
+  	 * Linear velocity of the {@code Drawable} in the direction of the X axis.
+ 	 */
 	double vx;
 
 	/**
@@ -110,9 +110,9 @@ public abstract class Drawable implements Cloneable
 	 */
 	int ueSize;
 
-    /**
-     * Returns the {@code GraphFX} with which the {@code Drawable} is associated.
-     */
+        /**
+         * Returns the {@code GraphFX} with which the {@code Drawable} is associated.
+         */
 	public GraphFX getParent()
 	{
 		return gfx;
@@ -152,15 +152,15 @@ public abstract class Drawable implements Cloneable
 	 */
 	public abstract RealRectangle getBounds();
 
-    /**
-     * Change the {@code GraphFX} associated with the {@code Drawable}.
-     * Note that this function DOES NOT remove it from the plot list
-     * of the previous {@code GraphFX}. This must be done explicitly using
-     * the {@code removeDrawable} function of {@code GraphFX}.
-     *
-     * @param gfx the new GraphFX with which the {@code Drawable} is associated.
-     * @see GraphFX#removeDrawable
-     */
+        /**
+         * Change the {@code GraphFX} associated with the {@code Drawable}.
+         * Note that this function DOES NOT remove it from the plot list
+         * of the previous {@code GraphFX}. This must be done explicitly using
+         * the {@code removeDrawable} function of {@code GraphFX}.
+         *
+         * @param gfx the new GraphFX with which the {@code Drawable} is associated.
+         * @see GraphFX#removeDrawable
+         */
 	public void changeGraphFX(GraphFX gfx)
 	{
 		this.gfx = gfx;
@@ -189,13 +189,13 @@ public abstract class Drawable implements Cloneable
 		this.bim = bim;
 	}
 
-    /**
-     * The function which draws the {@code Drawable} to the {@code BufferedImage}.
-     * The {@code BufferedImage} is drawn to the {@code GraphFX} using the
-     * {@code paintComponent} method.
-     *
-     * @see GraphFX#timer
-     */
+        /**
+         * The function which draws the {@code Drawable} to the {@code BufferedImage}.
+         * The {@code BufferedImage} is drawn to the {@code GraphFX} using the
+         * {@code paintComponent} method.
+         *
+         * @see GraphFX#timer
+         */
 	public abstract void plot();
 
 	/**
