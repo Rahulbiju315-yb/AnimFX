@@ -90,9 +90,9 @@ public abstract class Drawable implements Cloneable
 	 */
 	RealRectangle bounds;
 
-    /**
-     * Linear velocity of the {@code Drawable} in the direction of the X axis.
-     */
+   	/**
+  	 * Linear velocity of the {@code Drawable} in the direction of the X axis.
+ 	 */
 	double vx;
 
 	/**
@@ -110,9 +110,9 @@ public abstract class Drawable implements Cloneable
 	 */
 	int ueSize;
 
-    /**
-     * Returns the {@code GraphFX} with which the {@code Drawable} is associated.
-     */
+        /**
+         * Returns the {@code GraphFX} with which the {@code Drawable} is associated.
+         */
 	public GraphFX getParent()
 	{
 		return gfx;
