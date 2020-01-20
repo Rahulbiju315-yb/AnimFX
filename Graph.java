@@ -52,7 +52,7 @@ import java.awt.image.*;
 */
 public class  Graph extends JPanel implements MouseMotionListener, MouseWheelListener, KeyListener
 {
-	BufferedImage graph;
+	volatile BufferedImage graph;
 	BufferedImage axes;
 	protected Graphics2D g2d;
 	
@@ -370,8 +370,6 @@ public class  Graph extends JPanel implements MouseMotionListener, MouseWheelLis
 	
 	/**
 	* Plots the axes of the graph.
-	* @param kx X - axis unit interval.
-	* @param ky Y - axis unit interval.
 	*/
 	protected void plotAxes(Graphics2D aG2d)
 	{
@@ -772,6 +770,7 @@ public class  Graph extends JPanel implements MouseMotionListener, MouseWheelLis
 		mX = e.getX();
 		mY = e.getY();
 
+		repaint();
 	}
 	
 	public void keyPressed(KeyEvent e)
