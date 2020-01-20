@@ -198,6 +198,11 @@ public abstract class Drawable implements Cloneable
      */
 	public abstract void plot();
 
+	/**
+	 * The function which updates the state of the {@code Drawable} after each frame.
+	 *
+	 * @see GraphFX#timer
+	 */
 	public void update(double err)
 	{
 		if(updateEvents != null)
@@ -207,65 +212,98 @@ public abstract class Drawable implements Cloneable
 			}
 	}
 
+	/**
+	 * Sets the linear velocity of the {@code Drawable}
+	 */
 	public  void setLinearVel(double vx, double vy)
 	{
 		this.vx = vx;
 		this.vy = vy;
 	}
 
+	/**
+	 * Sets the linear velocity of the {@code Drawable} in the direction
+	 * of the X - axis.
+	 */
 	public  void setLinearXVel(double vx)
 	{
 		this.vx =vx;
 	}
 
+	/**
+	 * Sets the linear velocity of the {@code Drawable} in the direction
+	 * of the Y - axis.
+	 */
 	public void setLinearYVel(double vy)
 	{
 		this.vy = vy;
 	}
 
+	/**
+	 * Sets the angular velocity of the {@code Drawable}.
+	 */
 	public void setAngularVel(double phi)
 	{
 		this.phi = phi;
 	}
 
+	/**
+	 * Returns the linear velocity of the {@code Drawable} in the direction
+	 * of the X - axis.
+	 */
 	public double getLinearXVel()
 	{
 		return vx;
 	}
 
+	/**
+	 * Returns the linear velocity of the {@code Drawable} in the direction
+	 * of the Y - axis.
+	 */
 	public double getLinearYVel()
 	{
 		return vy;
 	}
 
+	/**
+	 * Returns the angular velocity of the {@code Drawable}.
+	 */
 	public double getAngularVel()
 	{
 		return phi;
 	}
 
-	public void xShift(double x)
-	{
+	/**
+	 * Perform a translation of the {@code Drawable} by shifting
+	 * it in the X direction by the specifed units.
+	 */
+	public abstract void xShift(double x);
 
-	}
+	/**
+	 * Perform a translation of the {@code Drawable} by shifting
+	 * it in the Y direction by the specifed units.
+	 */
+	public abstract void yShift(double y);
 
-	public void yShift(double y)
-	{
-
-	}
-
+	/**
+	 * Sets the name of the {@code Drawable}.
+	 */
 	public  void setName(String name)
 	{
 		this.name = name;
 	}
 
+	/**
+	 * Fetches the name of the {@code Drawable}.
+	 */
 	public String getName()
 	{
 		return name;
 	}
 
-	public Object clone()
-	{
-		return null;
-	}
+	/**
+	 * Returns a clone of the {@code Drawable}.
+	 */
+	public abstract Object clone();
 
 }
