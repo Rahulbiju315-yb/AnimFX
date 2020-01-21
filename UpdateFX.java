@@ -24,7 +24,7 @@ public class UpdateFX
 {
 	public static final UpdateEvent ReverseLVelocityOnCollision = new UpdateEvent()
 	{
-		public void update(Drawable d)
+		public void update(Drawable d, double err)
 		{
 			if(d == null)
 			{
@@ -63,7 +63,7 @@ public class UpdateFX
 
 	public static class BasicCollision extends UpdateEvent
 	{
-		public void update(Drawable d)
+		public void update(Drawable d, double err)
 		{
 			if(d == null)
 			{
@@ -79,38 +79,38 @@ public class UpdateFX
 
 			if(r.getX() < 0)
 			{
-				leftCollision(d, 2 * -r.getX());
+				leftCollision(d, 2 * -r.getX(), err);
 			}
 			if(r.getX() + r.getWidth() > d.getParent().getViewWidth())
 			{
-				rightCollision(d, - 2 * (r.getX() + r.getWidth() - d.getParent().getViewWidth()));
+				rightCollision(d, - 2 * (r.getX() + r.getWidth() - d.getParent().getViewWidth()), err);
 			}
 			if(r.getY() < 0)
 			{
-				upperCollision(d, 2 * -r.getY());
+				upperCollision(d, 2 * -r.getY(), err);
 			}
 			if(r.getY() + r.getHeight() > d.getParent().getViewHeight())
 			{
-				lowerCollision(d, - 2 * (r.getY() + r.getHeight() - d.getParent().getViewHeight()));
+				lowerCollision(d, - 2 * (r.getY() + r.getHeight() - d.getParent().getViewHeight()), err);
 			}
 		}
 
-		public void upperCollision(Drawable d, double shiftParam)
+		public void upperCollision(Drawable d, double shiftParam, double err)
 		{
 
 		}
 
-		public void lowerCollision(Drawable d, double shiftParam)
+		public void lowerCollision(Drawable d, double shiftParam, double err)
 		{
 
 		}
 
-		public void leftCollision(Drawable d, double shiftParam)
+		public void leftCollision(Drawable d, double shiftParam, double err)
 		{
 
 		}
 
-		public void rightCollision(Drawable d, double shiftParam)
+		public void rightCollision(Drawable d, double shiftParam, double err)
 		{
 
 		}
