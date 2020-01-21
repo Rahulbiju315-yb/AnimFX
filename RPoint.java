@@ -1,3 +1,7 @@
+/**
+ * A class to define a point with real cordinates.
+ */
+
 public class RPoint
 {
 	public double x, y;
@@ -7,17 +11,4 @@ public class RPoint
 		this.y = y;
 	}
 
-	@Override
-	public int hashCode()
-	{
-		return (int)y;
-	}
-
-	@Override
-	public boolean equals(Object p)
-	{
-		if(p instanceof SPoint)
-			return (((RPoint)p).x == x && ((RPoint)p).y == y);
-		return false;
-	}
 }
