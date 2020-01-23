@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.awt.image.*;
 
-/**
+/** 
  * A class implementing {@code Drawable} to draw basic lines and allow their animation.
  * on a {@code GraphFX}
  *
