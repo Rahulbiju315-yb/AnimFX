@@ -6,8 +6,6 @@ import java.awt.image.*;
 
 public class OvalFX extends Drawable
 {
-    BufferedImage bim;
-
     double x1, y1;
     double w, h, ow, oh;
     int csw = 1, csh = 1;
@@ -28,7 +26,7 @@ public class OvalFX extends Drawable
         this.oh = h;
         this.gfx = gfx;
         //System.out.println("" + this.x1 + " " + this.y1 + " " + this.w + " " + this.h);
-        htb = new Hashtable<SPoint, Color>();
+
         count++;
         ID = "OvalFX_" + count;
         name = "OvalFX_" + count;
@@ -56,83 +54,8 @@ public class OvalFX extends Drawable
 
     public void plot() 
     { 
-        int x, y;
-        x = 0;
-        y = (int)h;
-
-        double u, v, err = 0;
-        double h2 = h * h;
-        double w2 = w * w;
-        u = h2;
-        v = w2 * (2 * h - 1);
-
-        plotEllipsePoint(x, y);
-
-        while(h2 * x < w2 * y)
-        {
-            if(Math.abs(err + u - v) < Math.abs(err + u))
-            {
-                err += u - v;
-                x++;
-                y--;
-                u += 2 * h2;
-                v -= 2 * w2;
-            }
-            else
-            {
-                err += u;
-                x++;
-                u += 2 * h2;
-            }
-            plotEllipsePoint(x, y);
-        }
-
-        double temp = h;
-        h = w;
-        w = temp;
-
-        x = 0;
-        y = (int)h;
-
-        double temp2 = h2;
-        h2 = w2;
-        w2 = temp2;
-
-        u = h2;
-        v = w2 * (2 * h - 1);
-        plotEllipsePoint(y, x);
-
-        while(h2 * x < w2 * y)
-        {
-            if(Math.abs(err + u - v) < Math.abs(err + u))
-            {
-                err += u - v;
-                x++;
-                y--;
-                u += 2 * h2;
-                v -= 2 * w2;
-            }
-            else
-            {
-                err += u;
-                x++;
-                u += 2 * h2;
-            }
-            plotEllipsePoint(y, x);
-        }
-
-        temp = h;
-        h = w;
-        w = temp;
+        (bim.getGraphics()).drawOval((int)(x1 - w / 2.0), (int)(y1 - h / 2.0), (int)(w), (int)(h));
     } 
-
-    public void plotEllipsePoint(int x, int y)
-    {
-        putPixel((int)x1 + x, (int)y1 + y, bim, replot);
-        putPixel((int)x1 - x, (int)y1 + y, bim, replot);
-        putPixel((int)x1 + x, (int)y1 - y, bim, replot);
-        putPixel((int)x1 - x, (int)y1 - y, bim, replot);
-    }
 
     public boolean isWithinBounds()
     {
@@ -164,9 +87,9 @@ public class OvalFX extends Drawable
     }
 
     @Override
-    public Rectangle getBounds()
+    public RealRectangle getBounds()
     {
-        return new Rectangle((int)(x1 - w), (int)(y1 - h), (int)(2 * w), (int)(2 * h));
+        return new RealRectangle((x1 - w), (y1 - h), (2 * w), (2 * h));
     }
 
     @Override 
