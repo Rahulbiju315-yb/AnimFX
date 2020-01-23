@@ -105,7 +105,7 @@ public class LineFX extends Drawable
 	 * @param x the amount to shift in x direction.
 	 */
 	@Override
-	public void xShift(double x)
+	public void xShiftR(double x)
 	{
 		double dx = gfx.rtsXD(x);
 		x1 += dx;
@@ -119,7 +119,7 @@ public class LineFX extends Drawable
 	 * @param y the amount to shift in y direction.
 	 */
 	@Override
-	public void yShift(double y)
+	public void yShiftR(double y)
 	{
 		double dy = gfx.rtsYD(y);
 		y1 += dy;
@@ -127,6 +127,33 @@ public class LineFX extends Drawable
 		cy += dy;
 	}
 
+	/**
+	 * Shifts the line in the x direction by the specified screen cordinates.
+	 *
+	 * @param x the amount to shift in x direction.
+	 */
+	@Override
+	public void xShiftS(double x)
+	{
+		double dx = x;
+		x1 += dx;
+		x2 += dx;
+		cx += dx;
+	}
+
+	/**
+	 * Shifts the line in the x direction by the specified screen cordinates.
+	 *
+	 * @param y the amount to shift in y direction.
+	 */
+	@Override
+	public void yShiftS(double y)
+	{
+		double dy = y;
+		y1 += dy;
+		y2 += dy;
+		cy += dy;
+	}
 	/**
 	 * Draws a line between ({@code x1}, {@code y1}) and ({@code x2}, {@code y2}).
 	 */

@@ -25,6 +25,7 @@ import java.util.*;
  * 1. {@code name}
  * 2. {@code vx} and {@code vy} (Velocities in X and Y direction)
  * 3. {@code phi}
+ * </pre>
  *
  * <p>
  * {@code Drawable} can be translated using the {@code shiftX} and {@code shiftY}
@@ -90,7 +91,7 @@ public abstract class Drawable implements Cloneable
 	 */
 	RealRectangle bounds;
 
-   	/**
+   /**
   	 * Linear velocity of the {@code Drawable} in the direction of the X axis.
  	 */
 	double vx;
@@ -152,15 +153,15 @@ public abstract class Drawable implements Cloneable
 	 */
 	public abstract RealRectangle getBounds();
 
-        /**
-         * Change the {@code GraphFX} associated with the {@code Drawable}.
-         * Note that this function DOES NOT remove it from the plot list
-         * of the previous {@code GraphFX}. This must be done explicitly using
-         * the {@code removeDrawable} function of {@code GraphFX}.
-         *
-         * @param gfx the new GraphFX with which the {@code Drawable} is associated.
-         * @see GraphFX#removeDrawable
-         */
+	/**
+    * Change the {@code GraphFX} associated with the {@code Drawable}.
+    * Note that this function DOES NOT remove it from the plot list
+    * of the previous {@code GraphFX}. This must be done explicitly using
+    * the {@code removeDrawable} function of {@code GraphFX}.
+    *
+    * @param gfx the new GraphFX with which the {@code Drawable} is associated.
+    * @see GraphFX#removeDrawable
+    */
 	public void changeGraphFX(GraphFX gfx)
 	{
 		this.gfx = gfx;
@@ -189,13 +190,13 @@ public abstract class Drawable implements Cloneable
 		this.bim = bim;
 	}
 
-        /**
-         * The function which draws the {@code Drawable} to the {@code BufferedImage}.
-         * The {@code BufferedImage} is drawn to the {@code GraphFX} using the
-         * {@code paintComponent} method.
-         *
-         * @see GraphFX#timer
-         */
+	/**
+	 * The function which draws the {@code Drawable} to the {@code BufferedImage}.
+	 * The {@code BufferedImage} is drawn to the {@code GraphFX} using the
+    * {@code paintComponent} method.
+    *
+    * @see GraphFX#timer
+    */
 	public abstract void plot();
 
 	/**
@@ -208,7 +209,7 @@ public abstract class Drawable implements Cloneable
 		if(updateEvents != null)
 			for(int i = 0; i < ueSize; i++)
 			{
-				updateEvents.elementAt(i).update(this);
+				updateEvents.elementAt(i).update(this, err);
 			}
 	}
 
@@ -275,15 +276,27 @@ public abstract class Drawable implements Cloneable
 
 	/**
 	 * Perform a translation of the {@code Drawable} by shifting
-	 * it in the X direction by the specifed units.
+	 * it in the X direction by the specifed units in real cordinates.
 	 */
-	public abstract void xShift(double x);
+	public abstract void xShiftR(double x);
 
 	/**
 	 * Perform a translation of the {@code Drawable} by shifting
-	 * it in the Y direction by the specifed units.
+	 * it in the Y direction by the specifed units in real cordinates.
 	 */
-	public abstract void yShift(double y);
+	public abstract void yShiftR(double y);
+
+	/**
+	 * Perform a translation of the {@code Drawable} by shifting
+	 * it in the Y direction by the specifed units in screen cordinates.
+	 */
+	public abstract void yShiftS(double y);
+
+	/**
+	 * Perform a translation of the {@code Drawable} by shifting
+	 * it in the X direction by the specifed units in screen cordinates.
+	 */
+	public abstract void xShiftS(double x);
 
 	/**
 	 * Sets the name of the {@code Drawable}.
