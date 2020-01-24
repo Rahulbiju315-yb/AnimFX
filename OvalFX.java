@@ -36,7 +36,7 @@ public class OvalFX extends Drawable
         this.name = name;
     }
 
-    public OvalFX(double x1, double y1, double w, double h, GraphFX gfx)
+	public OvalFX(double x1, double y1, double w, double h, GraphFX gfx)
     {
         this(gfx.rtsX(x1), gfx.rtsY(y1), Math.abs(gfx.rtsX(w) - gfx.rtsX(0)) , Math.abs(gfx.rtsY(h) - gfx.rtsY(0)), gfx);
     }
