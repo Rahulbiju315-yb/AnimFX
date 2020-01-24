@@ -40,22 +40,25 @@ public class UpdateFX
 
 			if(r.getX() < 0)
 			{
-				d.xShift(2 * -r.getX() - 1);
+				d.xShiftS(2 * -r.getX() - 1);
 				d.setLinearXVel(Math.abs(d.getLinearXVel()));
 			}
+
 			if(r.getX() + r.getWidth() >= d.getParent().getViewWidth())
 			{
-				d.xShift(- 2 * (r.getX() + r.getWidth() - d.getParent().getViewWidth()) - 1);
+				d.xShiftS(- 2 * (r.getX() + r.getWidth() - d.getParent().getViewWidth()) - 1);
 				d.setLinearXVel(-Math.abs(d.getLinearXVel()));
 			}
+
 			if(r.getY() < 0)
 			{
-				d.yShift(2 * -r.getY() - 1);
+				d.yShiftS(2 * -r.getY() - 1);
 				d.setLinearYVel(Math.abs(d.getLinearYVel()));
 			}
+
 			if(r.getY() + r.getHeight() >= d.getParent().getViewHeight())
 			{
-				d.yShift(- 2 * (r.getY() + r.getHeight() - d.getParent().getViewHeight()) - 1);
+				d.yShiftS(- 2 * (r.getY() + r.getHeight() - d.getParent().getViewHeight()) - 1);
 				d.setLinearYVel(-Math.abs(d.getLinearYVel()));
 			}
 		}
