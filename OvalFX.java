@@ -30,11 +30,6 @@ public class OvalFX extends Drawable
 		name = "OvalFX_" + count;
 	}
 
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-
 	public OvalFX(double x1, double y1, double w, double h, GraphFX gfx)
 	{
 		this(gfx.rtsX(x1), gfx.rtsY(y1), Math.abs(gfx.rtsX(w) - gfx.rtsX(0)) , Math.abs(gfx.rtsY(h) - gfx.rtsY(0)), gfx);
@@ -55,16 +50,11 @@ public class OvalFX extends Drawable
 			g2d.fillOval((int)(x1 + 0.5), (int)(y1 + 0.5), 2, 2);
 	}
 
-	public boolean isWithinBounds()
-	{
-		return true;
-	}
-
 	public void setPlotCentre(boolean plotCentre)
 	{
 		this.plotCentre = plotCentre;
 	}
-	
+
 	public void update(double err)
 	{
 		super.update(err);
@@ -73,8 +63,8 @@ public class OvalFX extends Drawable
 		double vy_ = vy * (1 + err);
 		double phi_ = phi * (1 + err);
 
-		x1 += vx;
-		y1 += vy;
+		x1 += vx_;
+		y1 += vy_;
 
 		theta += phi_;
 	}
