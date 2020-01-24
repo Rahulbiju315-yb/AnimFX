@@ -46,14 +46,14 @@ public class GroupFX extends Drawable
 	@Override
 	public void yShift(double y)
 	{
-		
+
 		for(int i = 0; i < n; i++)
 		{
 			drs.elementAt(i).yShift(y);
 		}
-	}	
+	}
 
-	@Override 
+	@Override
 	public void setLinearXVel(double vx)
 	{
 		this.vx = vx;
@@ -63,7 +63,7 @@ public class GroupFX extends Drawable
 		}
 	}
 
-	@Override 
+	@Override
 	public void setLinearYVel(double vy)
 	{
 		this.vy = vy;
@@ -73,7 +73,7 @@ public class GroupFX extends Drawable
 		}
 	}
 
-	@Override 
+	@Override
 	public void setLinearVel(double vx, double vy)
 	{
 		this.vx = vx;
@@ -102,14 +102,14 @@ public class GroupFX extends Drawable
 		}
 	}
 
-	@Override 
-	public Rectangle getBounds()
+	@Override
+	public RealRectangle getBounds()
 	{
 		int xl = 0, yl = 0, xr = 0, yr = 0, w, h;
 
 		for(int i = 0; i < n; i++)
 		{
-			Rectangle rct = drs.elementAt(i).getBounds();
+			RealRectangle rct = drs.elementAt(i).getBounds();
 			if(rct == null)
 				return null;
 			else
@@ -122,7 +122,7 @@ public class GroupFX extends Drawable
 			}
 		}
 
-		return new Rectangle(xl, yl, xr - xl, yr - yl);
+		return new RealRectangle(xl, yl, xr - xl, yr - yl);
 	}
 
 	public void addDrawable(Drawable dr)
@@ -158,12 +158,15 @@ public class GroupFX extends Drawable
 		}
 	}
 
-	public void unplot()
+	public Object clone()
 	{
-		for(int i = n - 1; i >= 0; i--)
+		GroupFX grp = new GroupFX(gfx);
+		for(int i = 0; i < n; i++)
 		{
-			drs.elementAt(i).unplot();
+			grp.addDrawable((Drawable)(drs.elementAt(i).clone()));
 		}
+
+		return grp;
 	}
 
 	@Override
