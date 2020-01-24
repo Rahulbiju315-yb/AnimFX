@@ -3,19 +3,20 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.awt.image.*;
+import java.awt.geom.*;
 
 public class OvalFX extends Drawable
 {
     double x1, y1;
     double w, h, ow, oh;
-    int csw = 1, csh = 1;
 
     boolean replot = false;
 
-    String ID;
-    String name;
+	String name;
 
     static int count = 0;
+	double theta = 0;
+
     public OvalFX(int x1, int y1, int w, int h, GraphFX gfx)
     {
         this.x1 = x1;
@@ -25,16 +26,9 @@ public class OvalFX extends Drawable
         this.ow = w;
         this.oh = h;
         this.gfx = gfx;
-        //System.out.println("" + this.x1 + " " + this.y1 + " " + this.w + " " + this.h);
 
         count++;
-        ID = "OvalFX_" + count;
         name = "OvalFX_" + count;
-    }
-
-    public void setID(String ID)
-    {
-        this.ID = ID;
     }
 
     public void setName(String name)
@@ -52,38 +46,61 @@ public class OvalFX extends Drawable
         this.bim = bim;
     }
 
-    public void plot() 
-    { 
-        (bim.getGraphics()).drawOval((int)(x1 - w / 2.0), (int)(y1 - h / 2.0), (int)(w), (int)(h));
-    } 
+    public void plot()
+    {
+        Graphics2D g2d = ((Graphics2D)(bim.getGraphics()));
+		g2d.rotate(theta, (int)(x1 + 0.5), (int)(y1 + 0.5));
+		g2d.drawOval((int)(x1 - w / 2.0 + 0.5), (int)(y1 - h / 2.0 + 0.5), (int)w, (int)h);
+		g2d.rotate(-theta, (int)(x1 + 0.5), (int)(y1 + 0.5));
+		g2d.fillOval((int)(x1 + 0.5), (int)(y1 + 0.5), 2, 2);
+    }
 
     public boolean isWithinBounds()
     {
         return true;
     }
-    
-    public void unplot()
+
+    public void update(double err)
     {
-        replot = true;
-        plot();
-        replot = false;
+		super.update(err);
+
+		double vx_ = vx * (1 + err);
+		double vy_ = vy * (1 + err);
+		double phi_ = phi * (1 + err);
+
+		x1 += vx;
+		y1 += vy;
+
+		theta += phi_;
     }
 
+	public void xShiftR(double x)
+	{
+		double dx = gfx.rtsXD(x);
+		x1 += dx;
+	}
 
-    public void update()
-    {
-    
+	public void yShiftR(double y)
+	{
+		double dy = gfx.rtsYD(y);
+		y1 += dy;
+	}
 
-    }
+	public void xShiftS(double x)
+	{
+		double dx = x;
+		x1 += dx;
+	}
+
+	public void yShiftS(double y)
+	{
+		double dy = y;
+		y1 += dy;
+	}
 
     public String toString()
     {
         return name;
-    }
-
-    public String getID()
-    {
-        return ID;
     }
 
     @Override
@@ -92,13 +109,13 @@ public class OvalFX extends Drawable
         return new RealRectangle((x1 - w), (y1 - h), (2 * w), (2 * h));
     }
 
-    @Override 
+    @Override
     public Object clone()
     {
         OvalFX ovalClone = new OvalFX((int)x1, (int)y1, (int)w, (int)h, gfx);
         ovalClone.setLinearVel(vx, vy);
         ovalClone.setAngularVel(phi);
-        
+
         if(updateEvents != null)
             for(int i = 0; i < ueSize; i++)
             {
@@ -110,8 +127,3 @@ public class OvalFX extends Drawable
         return ovalClone;
     }
 }
-
-
-
-
-
