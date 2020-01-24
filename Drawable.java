@@ -91,7 +91,7 @@ public abstract class Drawable implements Cloneable
 	 */
 	RealRectangle bounds;
 
-    /**
+	/**
   	 * Linear velocity of the {@code Drawable} in the direction of the X axis.
  	 */
 	double vx;
