@@ -9,13 +9,12 @@ public class OvalFX extends Drawable
 {
 	double x1, y1;
 	double w, h, ow, oh;
-
-	boolean replot = false;
+	double theta = 0;
 
 	String name;
 
 	static int count = 0;
-	double theta = 0;
+	boolean plotCentre;
 
 	public OvalFX(int x1, int y1, int w, int h, GraphFX gfx)
 	{
@@ -52,7 +51,8 @@ public class OvalFX extends Drawable
 		g2d.rotate(theta, (int)(x1 + 0.5), (int)(y1 + 0.5));
 		g2d.drawOval((int)(x1 - w / 2.0 + 0.5), (int)(y1 - h / 2.0 + 0.5), (int)w, (int)h);
 		g2d.rotate(-theta, (int)(x1 + 0.5), (int)(y1 + 0.5));
-		g2d.fillOval((int)(x1 + 0.5), (int)(y1 + 0.5), 2, 2);
+		if(plotCentre)
+			g2d.fillOval((int)(x1 + 0.5), (int)(y1 + 0.5), 2, 2);
 	}
 
 	public boolean isWithinBounds()
@@ -60,6 +60,11 @@ public class OvalFX extends Drawable
 		return true;
 	}
 
+	public void setPlotCentre(boolean plotCentre)
+	{
+		this.plotCentre = plotCentre;
+	}
+	
 	public void update(double err)
 	{
 		super.update(err);
