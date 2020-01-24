@@ -153,9 +153,16 @@ public class GraphFX extends Graph
 
 							if(pause)
 							{
+								try
+								{
+									Thread.sleep(100);
+								}
+								catch(InterruptedException ex)
+								{
+
+								}
 								continue;
 							}
-
 							// Clearing the plot
 							Graphics2D g2 = ((Graphics2D)graph.getGraphics());
 							g2.setColor(bkg);
@@ -192,7 +199,6 @@ public class GraphFX extends Graph
 								// If negative, the relative error is stored in err, and scales the update
 								// expressions of the next iteration by err.
 								long sleepTime = fTime - System.currentTimeMillis() + beforeTime;
-								System.out.println(sleepTime);
 								if(sleepTime >= 0)
 									Thread.sleep(sleepTime);
 								else
