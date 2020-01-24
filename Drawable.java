@@ -193,10 +193,10 @@ public abstract class Drawable implements Cloneable
 	/**
 	 * The function which draws the {@code Drawable} to the {@code BufferedImage}.
 	 * The {@code BufferedImage} is drawn to the {@code GraphFX} using the
-     * {@code paintComponent} method.
-     *
-     * @see GraphFX#timer
-     */
+	 * {@code paintComponent} method.
+	 *
+	 * @see GraphFX#timer
+	 */
 	public abstract void plot();
 
 	/**
