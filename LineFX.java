@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.awt.image.*;
 
-/** 
+/**
  * A class implementing {@code Drawable} to draw basic lines and allow their animation.
  * on a {@code GraphFX}
  *
@@ -28,12 +28,14 @@ public class LineFX extends Drawable
 	Graphics2D g2d;
 
 	/**
-	 * Cordinates of the centre of the line. These are defined for calculting endpoints
-	 * following rotation updates.
-	 *
-	 * @see #update
+	 * Ratio of lengths from first point and second point where the point of rotation is situated.
 	 */
-	double cx, cy;
+	double lp1, lp2;
+
+	/**
+	 * Cordinates of point of rotation.
+	 */
+	double ax, ay;
 
 	/**
 	 * The angle of inclination of the line.
@@ -76,11 +78,13 @@ public class LineFX extends Drawable
 		this.x2 = x2;
 		this.y2 = y2;
 
-		cx = (x1 + x2)/2;
-		cy = (y1 + y2)/2;
+		lp1 = 1 / 2.0;
+		lp2 = 1 / 2.0;
+
+		ax = x1 * lp1 + x2 * lp2;
+		ay = y1 * lp1 + y2 * lp2;
 
 		l = Math.pow(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2), 1/2.0);
-		theta = (x2 == x1) ? Math.PI / 2 : Math.atan((y2 - y1) / (x2 - x1));
 
 		count++;
 		name = "LineFX_" + count;
@@ -110,7 +114,8 @@ public class LineFX extends Drawable
 		double dx = gfx.rtsXD(x);
 		x1 += dx;
 		x2 += dx;
-		cx += dx;
+
+		ax += dx;
 	}
 
 	/**
@@ -124,7 +129,8 @@ public class LineFX extends Drawable
 		double dy = gfx.rtsYD(y);
 		y1 += dy;
 		y2 += dy;
-		cy += dy;
+
+		ay += dy;
 	}
 
 	/**
@@ -138,7 +144,8 @@ public class LineFX extends Drawable
 		double dx = x;
 		x1 += dx;
 		x2 += dx;
-		cx += dx;
+
+		ax += dx;
 	}
 
 	/**
@@ -152,14 +159,19 @@ public class LineFX extends Drawable
 		double dy = y;
 		y1 += dy;
 		y2 += dy;
-		cy += dy;
+
+		ay += dy;
 	}
+
 	/**
 	 * Draws a line between ({@code x1}, {@code y1}) and ({@code x2}, {@code y2}).
 	 */
 	public void plot()
 	{
-		((Graphics2D)bim.getGraphics()).drawLine((int)(x1 + 0.5), (int)(y1 + 0.5), (int)(x2 + 0.5), (int)(y2 + 0.5));
+		Graphics2D g2d = ((Graphics2D)bim.getGraphics());
+		g2d.rotate(theta, (int)(ax + 0.5), (int)(ay + 0.5));
+		g2d.drawLine((int)(x1 + 0.5), (int)(y1 + 0.5), (int)(x2 + 0.5), (int)(y2 + 0.5));
+		g2d.rotate(-theta, (int)(ax + 0.5), (int)(ay + 0.5));
 	}
 
 	/**
@@ -195,25 +207,17 @@ public class LineFX extends Drawable
 		x2 += vx_;
 		y2 += vy_;
 
-		cx += vx_;
-		cy += vy_;
+		ax += vx_;
+		ay += vy_;
 
-		if(phi != 0)
-		{
-			x1 = cx + (l / 2 * Math.cos(phi_ + theta));
-			y1 = cy + (l / 2 * Math.sin(phi_ + theta));
-			x2 = cx - (l / 2 * Math.cos(phi_ + theta));
-			y2 = cy - (l / 2 * Math.sin(phi_ + theta));
-
-			theta += phi_;
-		}
+		theta += phi_;
 	}
 
 
 	public String toString()
-   {
-   	return name;
-   }
+	{
+		return name;
+	}
 
 	/**
 	 * Returns the bounding rectangle of the {@code LineFX}.
@@ -223,16 +227,16 @@ public class LineFX extends Drawable
 	@Override
 	public RealRectangle getBounds()
 	{
-   	return getBoundedRectangle(x1, y1, x2, y2);
-   }
+		return getBoundedRectangle(x1, y1, x2, y2);
+	}
 
 	/**
 	 * Returns a clone of the current {@code LineFX} instance.
 	 */
 	@Override
 	public Object clone()
-   {
-   	LineFX lineClone = new LineFX((int)x1, (int)y1, (int)x2, (int)y2, gfx);
+	{
+		LineFX lineClone = new LineFX((int)x1, (int)y1, (int)x2, (int)y2, gfx);
     	lineClone.setLinearVel(vx, vy);
     	lineClone.setAngularVel(phi);
 
