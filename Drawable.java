@@ -3,7 +3,7 @@ import java.awt.image.*;
 import java.util.*;
 
 
-/**
+/**  
  * The base class for all classes that can be drawn to a {@code GraphFX}.
  *
  * <p>
