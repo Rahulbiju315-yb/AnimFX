@@ -191,7 +191,7 @@ public class LineFX extends Drawable
 	 * The values of endpoints are updated based on the velocity and error factor. The error factor
 	 * {@code err} is the factor of the frame time by which the previous plot-update cycle finished
 	 * late by. For example is the frame time is 20 ms and it took the previous plot-update cycle
-	 * finished in 25 ms the error factor will be (25 - 20) /
+	 * finished in 25 ms the error factor will be (25 - 20) / 20.
 	 */
 	public void update(double err)
 	{
@@ -217,6 +217,22 @@ public class LineFX extends Drawable
 	public String toString()
 	{
 		return name;
+	}
+
+	public void setCORRatio(double lp1)
+	{
+		if(lp1 > 1)
+		{
+			System.err.println("Ratio of distance from point to total length must be less than 1.");
+			return;
+		}
+		else if(lp1 < 0)
+		{
+			System.err.println("Ratio of distance from point to total length must be positive.");
+			return;
+		}
+		this.lp1 = lp1;
+		this.lp2 = 1 - lp1;
 	}
 
 	/**
